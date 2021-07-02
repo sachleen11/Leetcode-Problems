@@ -12,17 +12,24 @@
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode*> traversalStack;
         vector<int> traversal;
-        inorderRec(traversal, root);
+        TreeNode* cur = root;
+        while(true){
+            if(cur != nullptr){
+                traversalStack.push(cur);
+                cur = cur -> left;
+            }
+            else if(!traversalStack.empty()){
+                traversal.push_back(traversalStack.top()->val);
+                cur = traversalStack.top()->right;
+                traversalStack.pop();
+            }
+            else{
+                break;
+            }
+        }
         return traversal;
     }
-    void inorderRec(vector<int> &traversal, TreeNode* root){
-        if(root == NULL)
-            return;
-        if(root->left != NULL)
-            inorderRec(traversal, root->left);
-        traversal.push_back(root->val);
-        if(root->right!= NULL)
-            inorderRec(traversal, root->right);
-    }
+    
 };
